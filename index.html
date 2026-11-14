@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tablas Gráficas de Tránsitos</title>
+    
+    <!-- 1. AQUÍ PONES TU SELLO PARA LA PESTAÑA DEL NAVEGADOR (FAVICON) -->
+    <!-- Cambia "mi-logo.png" por el nombre exacto de tu archivo -->
+    <link rel="icon" type="image/png" href="mi-logo.png">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { box-sizing: border-box; }
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f4f7f6; 
+            margin: 0; 
+            padding: 5px; 
+            color: #333; 
+            display: flex;
+            flex-direction: column;
+            height: 100vh; 
+            overflow: hidden; 
+        }
+
+        .container { 
+            width: 100%;
+            max-width: 1200px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 10px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            flex: 1; 
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Estilos para el encabezado con el logo */
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 5px;
+            margin-top: 5px;
+        }
+
+        .header-top h2 { 
+            margin: 0;
+            color: #2c3e50; 
+            font-size: 1.1rem;
+        }
+
+        /* Ajuste para la imagen del logo en el título */
+        .logo-titulo {
+            width: 35px;
+            height: 35px;
+            object-fit: contain; /* Evita que la imagen se deforme */
+            border-radius: 50%; /* Si tu foto es cuadrada, esto la hace redonda */
+        }
+
+        .btn-ayuda {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: #ecf0f1;
+            color: #34495e;
+            border: 1px solid #bdc3c7;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        .btn-ayuda:hover { background-color: #e0e6ed; }
+
+        .controls { 
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 8px; 
+            margin-bottom: 10px; 
+            background: #eef2f5; 
+            padding: 8px; 
+            border-radius: 8px; 
+            flex-shrink: 0; 
+        }
+
+        label { font-weight: bold; font-size: 0.9rem; }
+
+        select, button { 
+            padding: 6px 10px; 
+            font-size: 0.9rem; 
+            border-radius: 6px; 
+            border: 1px solid #ccc; 
+            outline: none; 
+        }
+
+        button#btnGenerar { 
+            background-color: #3498db; 
+            color: white; 
+            border: none; 
+            cursor: pointer; 
+            font-weight: bold; 
+            transition: 0.3s; 
+        }
+
+        button#btnGenerar:hover { background-color: #2980b9; }
+
+        #loading { 
+            text-align: center; 
+            font-weight: bold; 
+            color: #e67e22; 
+            display: none; 
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .chart-container { 
+            position: relative; 
+            width: 100%; 
+            flex: 1; 
+            min-height: 300px; 
+            overflow: hidden; 
+        }
+
+        .chart-container canvas {
+            width: 100% !important;
+            height: 100% !important;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <button class="btn-ayuda" onclick="alert('📌 Cómo leer la tabla:\n\n1. Elige un año y selecciona si quieres ver la vista de 1 año (con todos los planetas) o de 6 años (solo los planetas exteriores).\n2. Las líneas de colores representan el movimiento de cada astro.\n3. El eje vertical muestra los signos zodiacales.\n4. El eje horizontal muestra el paso del tiempo. Las franjas alternas (gris/blanco y amarillo/blanco) ayudan a ubicar los meses y los signos fácilmente.\n5. Toca cualquier línea para ver los grados exactos.')">?</button>
+
+    <!-- AQUÍ VA TU SELLO EN LA PÁGINA -->
+    <div class="header-top">
+        <!-- Cambia "mi-logo.png" por el nombre de tu archivo de imagen -->
+        <img src="mi-logo.png" alt="Logo" class="logo-titulo">
+        <h2>Tablas Gráficas de Tránsitos</h2>
+    </div>
+    
+    <div class="controls">
+        <div>
+            <label for="anioInicio">Año:</label>
+            <select id="anioInicio"></select>
+        </div>
+        <div>
+            <label for="modoVista">Vista:</label>
+            <select id="modoVista">
+                <option value="1anio">1 Año</option>
+                <option value="6anios">6 Años</option>
+            </select>
+        </div>
+        <button id="btnGenerar">Generar</button>
+    </div>
+
+    <div id="loading">Calculando...</div>
+
+    <div class="chart-container">
+        <canvas id="graficoAstral"></canvas>
+    </div>
+</div>
+
+<script type="module" src="app.js"></script>
+
+</body>
+</html>
